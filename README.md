@@ -3,3 +3,4 @@
 
  ## This is a project for school in the course Visualisation of information.
  Tools used Node and D3
+ 
