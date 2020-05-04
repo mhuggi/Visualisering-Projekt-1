@@ -1,0 +1,19 @@
+{
+  "name": "d3",
+  "version": "1.0.0",
+  "description": "A repository for my course Data Visualization with D3",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.3.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-util": "^3.0.8",
+    "gulp-webserver": "^0.9.1"
+  },
+  "author": "Ray Villalobos",
+  "dependencies": {
+    "gulp-cli": "^2.2.0"
+  },
+  "scripts": {
+    "gulp": "gulp"
+  }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>d3.js test</title>
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+<body>
+    <h1>SVG Grafik</h1>
+    <button onclick="drawCircle();">Rita en boll</button>
+    <script>
+//Skapa SVG med JS
+        var canvas = d3.select("body")
+            .append("svg")
+            .attr("width", 400)
+            .attr("height", 200);
+
+        canvas.append("rect")
+            .attr("width", 200)
+            .attr("height", 200)
+            .attr("fill", "lime")
+            .attr("stroke-width", 4)
+            .attr("stroke", "pink");
+
+            function drawCircle() {
+                canvas.append("circle")
+                .attr("cx", 100)
+                .attr("cy", 100)
+                .attr("r", 75)
+                .attr("fill", "orange")
+                .attr("opacity", .7);
+            }
+
+    </script>
+
+</body>
+
+</html>
