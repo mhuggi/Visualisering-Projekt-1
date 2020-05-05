@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Läs in en bild osm JS array</title>
+</head>
+<body>
+    <img id="input" src="image.jpg" hidden=true />
+    <!-- <input type="file" id="input"> -->
+    <canvas id="canvas" height="200"></canvas>
+
+    <script>
+        //document.getElementById('id').addEventListener('change', handleImg);
+        window.onload = function() {
+            
+            var context = canvas.getContext('2d');
+            var img = document.getElementById("input");
+            document.getElementById("canvas").height - img.height;
+            context.drawImage(img, 0,0);
+            var imageData = context.getImageData(0,0,img.width, img.height);
+            console.log(imageData);
+        }
+    </script>
+    
+</body>
+</html>
