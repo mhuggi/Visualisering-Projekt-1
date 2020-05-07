@@ -6,20 +6,44 @@
     <title>Läs in en bild osm JS array</title>
 </head>
 <body>
+
+    <input type="file" id="infile" />
+
     <img id="input" src="image.jpg" hidden=true />
     <!-- <input type="file" id="input"> -->
     <canvas id="canvas" height="200"></canvas>
 
     <script>
         //document.getElementById('id').addEventListener('change', handleImg);
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext('2d');
+        
         window.onload = function() {
             
-            var context = canvas.getContext('2d');
             var img = document.getElementById("input");
-            document.getElementById("canvas").height - img.height;
+            canvas.height = img.height;
             context.drawImage(img, 0,0);
             var imageData = context.getImageData(0,0,img.width, img.height);
             console.log(imageData);
+            document.getElementById("infile").addEventListener('change', handleFile);
+
+        }
+
+        function handleFile(event) {
+                var reader = new FileReader;
+                var imgURL = reader.readAsDataURL(event.target.files[0]);
+                reader.onload = function (event) {
+                var img = new Image;
+                img.src = event.target.result;
+                console.log(img);
+                img.onload = function () {
+                    canvas.height = img.height;
+            context.drawImage(img, 0,0);
+            var imageData = context.getImageData(0,0,img.width, img.height);
+            console.log(imageData);
+
+                }
+                }
         }
     </script>
     
