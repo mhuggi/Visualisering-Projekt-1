@@ -33,6 +33,16 @@ function drawChart() {
     .attr("stroke", "red")
     .attr("d",path(dataArray));
 
+    var dotsGroup = canvas.append('g');
+
+    dotsGroup.selectAll('dots').data(dataArray)
+        .enter()
+            .append('circle')
+            .attr('cx', function(d) {return d.x * 5})
+            .attr('cy', function(d) {return d.y * 5})
+            .attr('r', '2');
+
+
 
 });
 

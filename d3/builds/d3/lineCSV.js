@@ -35,10 +35,23 @@ function drawChart() {
 
     console.log(dString(data));
 
+
     canvas.append('path')
     .attr('fill', 'none')
     .attr('stroke', 'blue')
     .attr('d', dString(dataFix));
+
+    var dotsGroup = canvas.append('g');
+
+    dotsGroup.selectAll('dots').data(dataFix)
+    .enter()
+        .append('circle')
+        .attr('cx', function(d) {return xScale(d.month)})
+        .attr('cy', function(d) {return yScale(d.temp)})
+        .attr('r', '2');
+
+
+
 });
 
 };
