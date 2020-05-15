@@ -14,7 +14,7 @@ function drawChart() {
         //console.log(temps);
         
 
-    var width = 600, height = 300;
+    var width = 600, height = 300, margin = 20;
     var canvas = d3.select('body')
     .append('svg')
     .attr('width', width)
@@ -22,12 +22,12 @@ function drawChart() {
 
     var xScale = d3.scaleBand()
     .domain(months)
-    .range([0, width]);
+    .range([0, width - margin*2]);
 
     //Skala för temperatur
     var yScale = d3.scaleLinear()
     .domain([d3.min(temps), d3.max(temps)])
-    .range([height, 0]);
+    .range([height - margin*2, 0]);
 
     var dString = d3.line()
     .x(function(data) {return xScale(data.month)})
@@ -35,22 +35,28 @@ function drawChart() {
 
     console.log(dString(data));
 
+    var yAxis = d3.axisLeft(yScale);
+    var xAxis = d3.axisBottom(xScale);
 
-    canvas.append('path')
+    var chartGroup = canvas.append('g').attr("transform","translate("+margin+","+margin+")");
+
+
+
+    chartGroup.append('path')
     .attr('fill', 'none')
     .attr('stroke', 'blue')
     .attr('d', dString(dataFix));
 
-    var dotsGroup = canvas.append('g');
 
-    dotsGroup.selectAll('dots').data(dataFix)
+    chartGroup.selectAll('dots').data(dataFix)
     .enter()
         .append('circle')
         .attr('cx', function(d) {return xScale(d.month)})
         .attr('cy', function(d) {return yScale(d.temp)})
         .attr('r', '2');
 
-
+        chartGroup.append("g").call(yAxis);
+        chartGroup.append("g").call(xAxis);
 
 });
 
