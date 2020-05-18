@@ -1,0 +1,29 @@
+{
+    "temperatures": [
+      {"hour": 0, "temp": 10.9},
+      {"hour": 1, "temp": 11.1},
+      {"hour": 2, "temp": 11.4},
+      {"hour": 3, "temp": 11.9},
+      {"hour": 4, "temp": 12.7},
+      {"hour": 5, "temp": 12.7},
+      {"hour": 6, "temp": 13.7},
+      {"hour": 7, "temp": 13.9},
+      {"hour": 8, "temp": 14.1},
+      {"hour": 9, "temp": 14.4},
+      {"hour": 10, "temp": 14.8},
+      {"hour": 11, "temp": 14.9},
+      {"hour": 12, "temp": 15.2},
+      {"hour": 13, "temp": 15.2},
+      {"hour": 14, "temp": 15.9},
+      {"hour": 15, "temp": 16.2},
+      {"hour": 16, "temp": 16.3},
+      {"hour": 17, "temp": 17.8},
+      {"hour": 18, "temp": 17.9},
+      {"hour": 19, "temp": 18.2},
+      {"hour": 20, "temp": 18.2},
+      {"hour": 21, "temp": 18.4},
+      {"hour": 22, "temp": 18.7},
+      {"hour": 23, "temp": 18.8},
+      {"hour": 24, "temp": 20.1}
+    ]
+}
