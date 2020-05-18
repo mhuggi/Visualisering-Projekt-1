@@ -1,0 +1,19 @@
+{ "basketplayers" :
+    [
+          {"name": "Markkanen", "size": 203},
+          {"name": "Jordan", "size": 205},
+          {"name": "Johnson", "size": 220},
+          {"name": "James", "size": 180},
+          {"name": "Rodman", "size": 190},
+          {"name": "Koponen", "size": 203},
+          {"name": "Möttölä", "size": 205},
+          {"name": "Litmanen", "size": 212},
+          {"name": "Hyypiä", "size": 195},
+          {"name": "Koivu", "size": 192},
+          {"name": "Selänne", "size": 223},
+          {"name": "Nissinen", "size": 215},
+          {"name": "Partanen", "size": 201},
+          {"name": "Kummola", "size": 202},
+          {"name": "Katainen", "size": 204}
+    ]
+}
