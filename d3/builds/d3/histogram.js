@@ -43,7 +43,7 @@ function drawChart() {
         .range([0, chartWidth]);
 
         var yScale = d3.scaleLinear()
-        .domain([0, d3.max(heights)])
+        .domain([0, d3.max(freq)])
         .range([chartHeight, 0]);
 
         var xAxis = d3.axisBottom(xScale);
@@ -56,11 +56,11 @@ function drawChart() {
         var chartGroup = canvas.append("g")
         .attr("transform", "translate("+margin+","+margin+")");
 
-        chartGroup.selectAll("staplar").data(heights).enter()
+        chartGroup.selectAll("staplar").data(freq).enter()
             .append("rect")
             .attr("width", barWidth)
             .attr("height", function(data) { return chartHeight - yScale(data) })
-            .attr("x", function(data, i) {return i * (barWidth + barPadding)})
+            .attr("x", function(data, i) {return i * (chartWidth / binAmount) + barWidth/2})
             .attr("y", function(data, i) { return yScale(data) });
 
             chartGroup.append("g").call(yAxis);
