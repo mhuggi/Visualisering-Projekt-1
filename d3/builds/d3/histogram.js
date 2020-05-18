@@ -51,7 +51,8 @@ function drawChart() {
 
         var canvas = d3.select("body").append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .style("background", "lightgrey");
 
         var chartGroup = canvas.append("g")
         .attr("transform", "translate("+margin+","+margin+")");

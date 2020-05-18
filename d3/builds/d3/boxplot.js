@@ -57,9 +57,7 @@ function drawChart() {
         .attr("width", function(data) {return xScale(uq) - xScale(lq);})
         .attr("height", 50)
         .attr("x", xScale(lq))
-        .attr("y", 0);
-
-        
+        .attr("y", 20);
 
         chartGroup.append("g").call(xAxis);
     });
