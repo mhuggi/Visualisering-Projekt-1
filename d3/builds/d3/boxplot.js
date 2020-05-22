@@ -1,10 +1,11 @@
 function drawChart() {
     
     d3.json("boxplot.json").then( function(d){
-        var width = 600, height = 300, margin = 30;
+        var width = 600, height = 150, margin = 30;
         var chartWidth = width - (margin * 2);
         var chartHeight = height - (margin * 2);
-        console.log(d);
+        var boxHeight = 50, boxPosition = chartHeight - boxHeight;
+        var lineY = boxPosition + (boxHeight/2);
 
         var temps = [];
         for (i = 0; i<d.temperatures.length; i++) {
@@ -52,13 +53,49 @@ function drawChart() {
 
 
         var chartGroup = canvas.append("g").attr("transform", "translate("+margin+","+margin+")");
+        chartGroup.append("line")
+        .attr("stroke", "black")
+        .attr("x1", xScale(min))
+        .attr("x2", xScale(min))
+        .attr("y1", boxPosition + 10)
+        .attr("y2", boxPosition + boxHeight - 10);
         
+        chartGroup.append("line")
+        .attr("stroke", "black")
+        .attr("x1", xScale(max))
+        .attr("x2", xScale(max))
+        .attr("y1", boxPosition + 10)
+        .attr("y2", boxPosition + boxHeight - 10);
+        
+
+        chartGroup.append("line")
+        .attr("stroke", "black")
+        .attr("x1", xScale(min))
+        .attr("x2", xScale(max))
+        .attr("y1", lineY)
+        .attr("y2", lineY);
+
+
         chartGroup.append("rect")
-        .attr("width", function(data) {return xScale(uq) - xScale(lq);})
-        .attr("height", 50)
+        .attr("width", xScale(uq) - xScale(lq))
+        .attr("height", boxHeight)
+        .attr("fill", "grey")
+        .attr("stroke", "lightgreen")
         .attr("x", xScale(lq))
-        .attr("y", 20);
+        .attr("y", boxPosition);
+
+        chartGroup.append("line")
+        .attr("stroke", "black")
+        .attr("x1", xScale(median))
+        .attr("x2", xScale(median))
+        .attr("y1", boxPosition)
+        .attr("y2", boxPosition + boxHeight);
+
+        
 
         chartGroup.append("g").call(xAxis);
+
+
+
     });
 };
