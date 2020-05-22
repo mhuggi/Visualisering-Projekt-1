@@ -12,10 +12,18 @@ function drawChart() {
             .append("ellipse")
             .attr("cx", 100)
             .attr("cy", 100)
-            .attr("rx", 20)
+            .attr("rx", 40)
             .attr("ry", 20)
             .attr("stroke", "black")
-            .attr("fill", "lightgray");
+            .attr("fill", "lightgray")
+            .on("mouseover", overHandler)
+            .on("mouseout", outHandler);
+
+        var label = canvas.append("g").selectAll("labels").data(data.nodes)
+        .enter()
+            .append("text")
+            .attr("text-anchor", "middle")
+            .text(function(d) {return d.name});
 
 
             var simulation = d3.forceSimulation()
@@ -27,6 +35,18 @@ function drawChart() {
             function tickHandler() {
                 node.attr("cx", function(d) {return d.x})
                 node.attr("cy", function(d) {return d.y});
+
+                label
+                .attr("x", function(d) {return d.x})
+                .attr("y", function(d) {return d.y + 5})
+    
+            }
+            function overHandler(d) {
+                d3.select(this).append("title").text(d.name);
+            }
+            function outHandler(d) {
+                d3.select(this).select("title").remove();
+
             }
     });
 };
