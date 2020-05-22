@@ -7,6 +7,11 @@ function drawChart() {
             .attr("width", width).attr("height", height);
 
         console.log(data.nodes);
+
+        var link = canvas.append("g").selectAll("links").data(data.links).enter()
+        .append("line")
+        .attr("stroke", "black");
+
         var node = canvas.append("g").selectAll("nodes").data(data.nodes)
         .enter()
             .append("ellipse")
@@ -19,6 +24,8 @@ function drawChart() {
             .on("mouseover", overHandler)
             .on("mouseout", outHandler);
 
+
+
         var label = canvas.append("g").selectAll("labels").data(data.nodes)
         .enter()
             .append("text")
@@ -26,21 +33,33 @@ function drawChart() {
             .text(function(d) {return d.name});
 
 
+
             var simulation = d3.forceSimulation()
-                .force("charge", d3.forceManyBody().strength(-20))
+                .force("link", d3.forceLink().distance(75).id(function(d) {return d.id}))
+                .force("charge", d3.forceManyBody().strength(-100))
                 .force("center", d3.forceCenter(width / 2, height /2));
 
             simulation.nodes(data.nodes).on("tick", tickHandler);
+            simulation.force("link").links(data.links);
 
             function tickHandler() {
-                node.attr("cx", function(d) {return d.x})
-                node.attr("cy", function(d) {return d.y});
+                node
+                .attr("cx", function(d) {return d.x})
+                .attr("cy", function(d) {return d.y});
 
                 label
                 .attr("x", function(d) {return d.x})
                 .attr("y", function(d) {return d.y + 5})
-    
+
+                link
+                .attr("x1", function(d) {return d.source.x})
+                .attr("y1", function(d) {return d.source.y})
+                .attr("x2", function(d) {return d.target.x})
+                .attr("y2", function(d) {return d.target.y});
+
+
             }
+
             function overHandler(d) {
                 d3.select(this).append("title").text(d.name);
             }
