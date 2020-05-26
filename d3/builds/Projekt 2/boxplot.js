@@ -6,6 +6,8 @@ function drawChart() {
     var format = document.getElementById("format").value;
     $.get("https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&tsym=EUR&limit="+days+"&api_key=51c7d72b0d64ae36dc113a2f99628bcb475eb682a4fcbb3f92a4563044984504",function(data, status){     
 d3.select("svg").remove("path");
+d3.select("svg").remove("rect");
+
 
 
         var width = 800, height = 500, margin = 50;
@@ -28,6 +30,7 @@ d3.select("svg").remove("path");
             var dayMonth = newDate.getDate() + "." + (newDate.getMonth() + 1);
             date.push(dayMonth);
         }
+        
     var canvas = d3.select("section")
     .append("svg")
     .attr("width", width)
@@ -86,6 +89,7 @@ if (format == 1) {
     .attr("stroke-width", 3)
     .attr("d",path(dataArray))
     .attr("transform","translate("+chartWidth/xs.length/2+",0)");
+    
     chartGroup.append("g").call(yAxis);
     chartGroup.append("g").call(xAxis).attr("transform","translate(0,"+chartHeight+")");
     
@@ -147,16 +151,11 @@ if (format == 1) {
         time.push(hDataArray[i].time)
         hDataDays.push(d);
     }
+    time.push(today[0].time);
     console.log(hDataDays);
     console.log(time);
 
 
-var xScale = d3.scaleBand()
-.domain(time)
-.range([0, chartWidth]);
-
-
-var xAxis = d3.axisBottom(xScale);
 var boxPos = 0;
 
     for (i = 0;i<hDataDays.length;i++) {
@@ -203,7 +202,7 @@ var boxPos = 0;
             allMin = min;
         }
 
-        allData.push({median:median, lq:lq, uq:uq, max:max, min:min});
+        allData.push({median:median, lq:lq, uq:uq, max:max, min:min, time:time[i]});
         /*console.log(median);
         console.log(lq);
         console.log(uq);
@@ -263,22 +262,59 @@ chartGroup.append("line")
 
     }
     console.log(allData);
+    allData.reverse();
+    console.log(allData);
+
+    var xScale = d3.scaleBand()
+    .domain(time)
+    .range([0, chartWidth]);
+
     var yScale = d3.scaleLinear()
-    .domain([allMin -5, allMax +5])
+    .domain([allMax +5, allMin -5])
     .range([0, chartHeight]);
 
-    chartGroup.append("g").call(xAxis);
+
+    var xAxis = d3.axisBottom(xScale);
+    var yAxis = d3.axisLeft(yScale);
+
+    chartGroup.selectAll("varline")
+    .data(allData)
+    .enter()
+        .append("line")
+        .attr("stroke", "black")
+        .attr("x1", function(d) {return xScale(d.time)})
+        .attr("x2", function(d) {return xScale(d.time)})
+        .attr("y1", function(d) {return yScale(d.max)})
+        .attr("y2", function(d) {return yScale(d.min)})
+        .attr("transform","translate("+chartWidth/time.length/2+",0)");    
+
 
     chartGroup.selectAll("rect")
     .data(allData)
     .enter()
         .append("rect")
-        .attr("height", yScale(uq) - yScale(lq))
-        .attr("width", function(d) {return xScale.bandwidth() -20;})
+        .attr("height", function(d) {return yScale(d.lq) - yScale(d.uq)})
+        .attr("width", function(d) {return xScale.bandwidth();})
         .attr("fill", "grey")
         .attr("stroke", "lightgreen")
-        .attr("y", yScale(lq))
-        .attr("x", boxPos);
+        .attr("x", function(d) {return xScale(d.time)})
+        .attr("y", function(d) {return yScale(d.uq) });
+    
+    chartGroup.selectAll("medline")
+    .data(allData)
+    .enter()
+        .append("line")
+        .attr("stroke", "black")
+        .attr("x1", function(d) {return xScale(d.time)})
+        .attr("x2", function(d) {return xScale(d.time) + xScale.bandwidth()})
+        .attr("y1", function(d) {return yScale(d.median)})
+        .attr("y2", function(d) {return yScale(d.median)});
+    
+
+
+
+        chartGroup.append("g").call(xAxis).attr("transform","translate(0,"+chartHeight+")");
+        chartGroup.append("g").call(yAxis);
 });
 
 }
