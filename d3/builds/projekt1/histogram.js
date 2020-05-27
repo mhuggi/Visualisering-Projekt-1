@@ -7,15 +7,11 @@ var context = canvas.getContext('2d');
 document.getElementById("infile").addEventListener('change', handleFile);
 document.getElementById("inlink").addEventListener('change', handleLink);
 
-//var img = document.getElementById("input");
-
+window.onresize = reDraw;
 
 function drawChart() {
-    //console.log(canvas.toDataURL());
     var img = document.getElementById("canvas");
     console.log(img);
-    //canvas.height = img.height;
-    //context.drawImage(img, 0,0);
     var imageData = context.getImageData(0,0,img.width, img.height);
     console.log(imageData);
 
@@ -72,12 +68,17 @@ function reDraw() {
         .domain([0, d3.max(gBin)])
         .range([0,height]);
     }
-    console.log(rBin);
-    console.log(gBin);
-    console.log(bBin);
 
-
+    var botValues = [];
+    for(i = 0;i<256;i+=10) {
+        botValues.push(i);
+    }
     
+
+    var bottomAxis = d3.scaleBand()
+    .domain(botValues)
+    .range([0, width]); 
+
     var rxScale = d3.scaleBand()
     .domain(rBin)
     .range([0, width]);
@@ -94,6 +95,9 @@ function reDraw() {
     .style("background", "lightgrey");
     
     var chartGroup = canvas.append("g");
+
+    var xAxis = d3.axisBottom(bottomAxis);
+
 setTimeout(function() {
     chartGroup.selectAll("rstaplar")
     .data(rBin) // Fyll virtuella staplar med data från array
@@ -106,7 +110,7 @@ setTimeout(function() {
         //Bredden av rektangeln = värdet från datatabellen
         .attr("height", function(data) {return yScale(data); })
         //Första rektangeln x = 100*0, x2 = 100*1 ...
-        .attr("x", function(data) {return rxScale(data); })
+        .attr("x", function(data, i) {return i * (width / rBin.length) + rxScale.bandwidth()/2; })
         .attr("y", function(data) {return height - yScale(data) + barMargin; });
     
     chartGroup.selectAll("gstaplar")
@@ -117,7 +121,7 @@ setTimeout(function() {
     .style("opacity", 0.3)
     .attr("width", function (data) {return gxScale.bandwidth(); })
     .attr("height", function(data) {return yScale(data); })
-    .attr("x", function(data) {return gxScale(data); })
+    .attr("x", function(data, i) {return i * (width / gBin.length) + gxScale.bandwidth()/2; })
     .attr("y", function(data) {return height - yScale(data) + barMargin; });
 
 
@@ -129,9 +133,13 @@ setTimeout(function() {
     .style("opacity", 0.3)
     .attr("width", function (data) {return bxScale.bandwidth(); })
     .attr("height", function(data) {return yScale(data); })
-    .attr("x", function(data) {return bxScale(data); })
+    .attr("x", function(data, i) {return i * (width / bBin.length) + bxScale.bandwidth()/2; })
     .attr("y", function(data) {return height - yScale(data) + barMargin; });
 }, 50);
+
+
+chartGroup.append("g").call(xAxis);//.attr("transform","translate(0,"+height+")");
+
 }
 function handleFile(event) {
     imgValues = [];
