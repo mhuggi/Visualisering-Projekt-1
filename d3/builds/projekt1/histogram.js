@@ -49,6 +49,9 @@ function reDraw() {
     
     var height = window.innerHeight / 2;
     var width = window.innerWidth * 0.8;
+    var margin = 10;
+    var chartWidth = width - (margin * 2);
+    var chartHeight = height - (margin * 2);    
     var barMargin = 10;
 
     drawChart();
@@ -105,7 +108,7 @@ setTimeout(function() {
     .enter() //for (i=0; i<dta.length; i++)
         .append("rect")
         .style("fill", "red")
-        .style("opacity", 0.3)
+        .style("opacity", 0.25)
         .attr("width", function (data) {return rxScale.bandwidth(); })
         //Bredden av rektangeln = värdet från datatabellen
         .attr("height", function(data) {return yScale(data); })
@@ -118,7 +121,7 @@ setTimeout(function() {
     .enter()
     .append("rect")
     .style("fill", "green")
-    .style("opacity", 0.3)
+    .style("opacity", 0.25)
     .attr("width", function (data) {return gxScale.bandwidth(); })
     .attr("height", function(data) {return yScale(data); })
     .attr("x", function(data, i) {return i * (width / gBin.length) + gxScale.bandwidth()/2; })
@@ -130,7 +133,7 @@ setTimeout(function() {
     .enter()
     .append("rect")
     .style("fill", "blue")
-    .style("opacity", 0.3)
+    .style("opacity", 0.25)
     .attr("width", function (data) {return bxScale.bandwidth(); })
     .attr("height", function(data) {return yScale(data); })
     .attr("x", function(data, i) {return i * (width / bBin.length) + bxScale.bandwidth()/2; })
