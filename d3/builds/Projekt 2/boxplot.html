@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <h1>Bitcoin priser</h1>
+    <span id="header"><h1>Search</h1></span>
     Visa dagar: <select id='days' name='days'>
         <option value=7>7</option>
         <option value=30>30</option>
@@ -38,9 +38,16 @@
         Välj format: <select id='format' name='format'>
             <option value=1>Linje</option>
             <option value=2>Boxplot</option>
-            </select>    
+            </select>
+            
+        Välj currency: <select id='curr' name='curr'>
+                <option value=EUR>EUR</option>
+                <option value=USD>USD</option>
+                </select>    
         <button onclick="drawChart()">Sök</button>
-        <section></section>
+
+        <span id="current"></span>
+        <section id="canvas"></section>
     <script>
     </script>
 
