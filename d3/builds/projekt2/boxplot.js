@@ -231,7 +231,6 @@ if (format == 1) {
         allData.push({median:median, lq:lq, uq:uq, max:max, min:min, time:time[i]});
 
     }
-    console.log(allData);
     
     newDateScale = [];
     for (i = 0; i<date.length;i++) {
@@ -294,7 +293,7 @@ if (format == 1) {
         .on("mouseover", function(d) {
             var time = new Date(d.time * 1000);
         
-        if (curr == "EUR") {              
+        if (curr == "EUR") {
       div.transition()		
           .duration(200)		
           .style("opacity", .9);		
