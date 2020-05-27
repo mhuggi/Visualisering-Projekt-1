@@ -1,5 +1,7 @@
     //variabeln data innehåller här JSON-filen som returneras från webbtjänsten
-
+    window.onresize = drawChart;
+    window.onload = drawChart;
+    
 
 function drawChart() {
     var days = document.getElementById("days").value;
@@ -12,10 +14,11 @@ d3.select("svg").remove("rect");
 
 
 
-        var width = 800, height = 500, margin = 50;
+
+        var width = window.innerWidth * 0.8, height = window.innerHeight / 2, margin = 50;
         var chartWidth = width - (margin * 2);
         var chartHeight = height - (margin * 2);
-        var boxMargin = 3, minMaxMargin = 30;
+        var boxMargin = 3, minMaxMargin = width / 12;
 
         var xs = [];
         var ys = [];
@@ -150,9 +153,9 @@ if (format == 1) {
 } else {
     if (days==30) {
         console.log("Setting bigger minMaxmargin");
-        minMaxMargin = 5;
+        minMaxMargin = width / 50;
     } else if(days==90) {
-        document.getElementById("canvas").innerHTML = "90 days not available in boxplots, sorry";
+        document.getElementById("header").innerHTML = "<h1>90 days not available in boxplots, sorry</h1>";
     }
     var currentTime = new Date();
     var hours = (days * 24) + currentTime.getHours();
