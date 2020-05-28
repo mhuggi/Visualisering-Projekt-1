@@ -52,7 +52,6 @@ function reDraw() {
     var margin = 10;
     var chartWidth = width - (margin * 2);
     var chartHeight = height - (margin * 2);    
-    var barMargin = 10;
 
     drawChart();
 
@@ -60,16 +59,28 @@ function reDraw() {
 
     if (d3.max(rBin) > d3.max(gBin) && d3.max(rBin) > d3.max(bBin)) {
         var yScale = d3.scaleLinear()
-        .domain([0, d3.max(rBin)])
-        .range([0,height]);
+        .domain([0, d3.max(rBin)+ 500])
+        .range([0,chartHeight]);
+        var showYScale = d3.scaleLinear()
+        .domain([d3.max(rBin)+ 500, 0])
+        .range([0,chartHeight]);
+
     } else if (d3.max(gBin) > d3.max(rBin) && d3.max(gBin) > d3.max(bBin)) {
     var yScale = d3.scaleLinear()
-    .domain([0, d3.max(gBin)])
-    .range([0,height]);
+    .domain([0, d3.max(gBin)+ 500])
+    .range([0,chartHeight]);
+    var showYScale = d3.scaleLinear()
+    .domain([d3.max(rBin)+ 500, 0])
+    .range([0,chartHeight]);
+
     } else {
         var yScale = d3.scaleLinear()
-        .domain([0, d3.max(gBin)])
-        .range([0,height]);
+        .domain([0, d3.max(gBin)+ 500])
+        .range([0,chartHeight]);
+        var showYScale = d3.scaleLinear()
+        .domain([d3.max(rBin)+ 500, 0])
+        .range([0,chartHeight]);
+
     }
 
     var botValues = [];
@@ -80,17 +91,17 @@ function reDraw() {
 
     var bottomAxis = d3.scaleBand()
     .domain(botValues)
-    .range([0, width]); 
+    .range([0, chartWidth]); 
 
     var rxScale = d3.scaleBand()
     .domain(rBin)
-    .range([0, width]);
+    .range([0, chartWidth]);
     var gxScale = d3.scaleBand()
     .domain(gBin)
-    .range([0, width]);
+    .range([0, chartWidth]);
     var bxScale = d3.scaleBand()
     .domain(bBin)
-    .range([0, width]);
+    .range([0, chartWidth]);
 
     var canvas = d3.select("body").append("svg")
     .attr("width", width)
@@ -100,6 +111,8 @@ function reDraw() {
     var chartGroup = canvas.append("g");
 
     var xAxis = d3.axisBottom(bottomAxis);
+    var yAxis = d3.axisRight(showYScale);
+
 
 setTimeout(function() {
     chartGroup.selectAll("rstaplar")
@@ -113,8 +126,8 @@ setTimeout(function() {
         //Bredden av rektangeln = värdet från datatabellen
         .attr("height", function(data) {return yScale(data); })
         //Första rektangeln x = 100*0, x2 = 100*1 ...
-        .attr("x", function(data, i) {return i * (width / rBin.length) + rxScale.bandwidth()/2; })
-        .attr("y", function(data) {return height - yScale(data) + barMargin; });
+        .attr("x", function(data, i) {return i * (chartWidth / rBin.length) + rxScale.bandwidth()/2; })
+        .attr("y", function(data) {return chartHeight - yScale(data); });
     
     chartGroup.selectAll("gstaplar")
     .data(gBin)
@@ -124,8 +137,8 @@ setTimeout(function() {
     .style("opacity", 0.25)
     .attr("width", function (data) {return gxScale.bandwidth(); })
     .attr("height", function(data) {return yScale(data); })
-    .attr("x", function(data, i) {return i * (width / gBin.length) + gxScale.bandwidth()/2; })
-    .attr("y", function(data) {return height - yScale(data) + barMargin; });
+    .attr("x", function(data, i) {return i * (chartWidth / gBin.length) + gxScale.bandwidth()/2; })
+    .attr("y", function(data) {return chartHeight - yScale(data) ; });
 
 
     chartGroup.selectAll("bstaplar")
@@ -136,12 +149,13 @@ setTimeout(function() {
     .style("opacity", 0.25)
     .attr("width", function (data) {return bxScale.bandwidth(); })
     .attr("height", function(data) {return yScale(data); })
-    .attr("x", function(data, i) {return i * (width / bBin.length) + bxScale.bandwidth()/2; })
-    .attr("y", function(data) {return height - yScale(data) + barMargin; });
+    .attr("x", function(data, i) {return i * (chartWidth / bBin.length) + bxScale.bandwidth()/2; })
+    .attr("y", function(data) {return chartHeight - yScale(data); });
 }, 50);
 
 
-chartGroup.append("g").call(xAxis);//.attr("transform","translate(0,"+height+")");
+chartGroup.append("g").call(yAxis);
+chartGroup.append("g").call(xAxis).attr("transform","translate(0,"+chartHeight+")");
 
 }
 function handleFile(event) {
